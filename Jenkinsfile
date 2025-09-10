@@ -1,11 +1,13 @@
 pipeline {
     agent any
-    
+
     environment {
+        // [수정] SSH 접속 정보를 변수로 관리하면 편리합니다.
+        HOST_USER = 'jen'      // 호스트 머신 사용자 이름
+        HOST_IP = 'localhost'   // Jenkins와 배포 서버가 같으므로 localhost 사용
         PROJECT_DIR = '/home/ubuntu/udong'
-        COMPOSE_PROJECT_NAME = 'udong'
     }
-    
+
     stages {
         stage('Checkout') {
             steps {
@@ -13,12 +15,12 @@ pipeline {
                 checkout scm
             }
         }
-        
+
         stage('Detect Changes') {
             steps {
                 script {
                     echo "Detecting changed files..."
-                    
+                    // 최초 커밋 등 히스토리가 1개일 때 오류 방지를 위해 || echo "all" 추가
                     def changedFiles = sh(
                         script: 'git diff --name-only HEAD~1 HEAD || echo "all"',
                         returnStdout: true
@@ -26,7 +28,6 @@ pipeline {
                     
                     echo "Changed files: ${changedFiles}"
                     
-                    // 각 서비스별 변경 여부 확인
                     env.FRONTEND_CHANGED = (changedFiles.contains('frontend/') || changedFiles == 'all') ? 'true' : 'false'
                     env.BUSINESS_CHANGED = (changedFiles.contains('backend/business/') || changedFiles == 'all') ? 'true' : 'false'
                     env.CHAT_CHANGED = (changedFiles.contains('backend/chatting/') || changedFiles == 'all') ? 'true' : 'false'
@@ -35,17 +36,17 @@ pipeline {
                     echo "Business API changed: ${env.BUSINESS_CHANGED}"
                     echo "Chat API changed: ${env.CHAT_CHANGED}"
                     
-                    // 변경된 서비스가 없으면 모든 서비스 배포
-                    if (env.FRONTEND_CHANGED == 'false' && env.BUSINESS_CHANGED == 'false' && env.CHAT_CHANGED == 'false') {
+                    // 변경된 서비스가 없으면 마지막 커밋이 Jenkinsfile 수정 등일 수 있으므로 전체 배포
+                    if (!changedFiles.contains('frontend/') && !changedFiles.contains('backend/business/') && !changedFiles.contains('backend/chatting/')) {
                         env.FRONTEND_CHANGED = 'true'
                         env.BUSINESS_CHANGED = 'true'
                         env.CHAT_CHANGED = 'true'
-                        echo "No specific changes detected, deploying all services"
+                        echo "No specific service changes detected, deploying all services"
                     }
                 }
             }
         }
-        
+
         stage('Deploy Services') {
             parallel {
                 stage('Deploy Frontend') {
@@ -54,11 +55,17 @@ pipeline {
                     }
                     steps {
                         echo 'Building and deploying Frontend...'
-                        sh '''
-                            cd ${PROJECT_DIR}
-                            docker-compose build frontend
-                            docker-compose up -d --no-deps frontend
-                        '''
+                        // [수정] sshagent 블록으로 원격 명령 실행
+                        sshagent(credentials: ['host-ssh-key']) { // 2단계에서 만든 Credential ID
+                            sh """
+                                ssh -o StrictHostKeyChecking=no ${HOST_USER}@${HOST_IP} '''
+                                    echo "--- Deploying Frontend on Host ---"
+                                    cd ${PROJECT_DIR}
+                                    docker-compose build frontend
+                                    docker-compose up -d --no-deps frontend
+                                '''
+                            """
+                        }
                         echo 'Frontend deployment completed!'
                     }
                 }
@@ -69,11 +76,17 @@ pipeline {
                     }
                     steps {
                         echo 'Building and deploying Business API...'
-                        sh '''
-                            cd ${PROJECT_DIR}
-                            docker-compose build business-api
-                            docker-compose up -d --no-deps business-api
-                        '''
+                        // [수정] sshagent 블록으로 원격 명령 실행
+                        sshagent(credentials: ['host-ssh-key']) {
+                            sh """
+                                ssh -o StrictHostKeyChecking=no ${HOST_USER}@${HOST_IP} '''
+                                    echo "--- Deploying Business API on Host ---"
+                                    cd ${PROJECT_DIR}
+                                    docker-compose build business-api
+                                    docker-compose up -d --no-deps business-api
+                                '''
+                            """
+                        }
                         echo 'Business API deployment completed!'
                     }
                 }
@@ -84,37 +97,47 @@ pipeline {
                     }
                     steps {
                         echo 'Building and deploying Chat API...'
-                        sh '''
-                            cd ${PROJECT_DIR}
-                            docker-compose build chat-api
-                            docker-compose up -d --no-deps chat-api
-                        '''
+                        // [수정] sshagent 블록으로 원격 명령 실행
+                        sshagent(credentials: ['host-ssh-key']) {
+                            sh """
+                                ssh -o StrictHostKeyChecking=no ${HOST_USER}@${HOST_IP} '''
+                                    echo "--- Deploying Chat API on Host ---"
+                                    cd ${PROJECT_DIR}
+                                    docker-compose build chat-api
+                                    docker-compose up -d --no-deps chat-api
+                                '''
+                            """
+                        }
                         echo 'Chat API deployment completed!'
                     }
                 }
             }
         }
-        
+
         stage('Cleanup') {
+            // 항상 실행되도록 post 블록으로 이동하는 것을 추천하지만, 일단 유지
             steps {
-                echo 'Cleaning up unused Docker images...'
-                sh '''
-                    docker image prune -f
-                    echo "Cleanup completed!"
-                '''
+                echo 'Cleaning up unused Docker images on host...'
+                // [수정] sshagent 블록으로 원격 명령 실행
+                sshagent(credentials: ['host-ssh-key']) {
+                    sh """
+                        ssh -o StrictHostKeyChecking=no ${HOST_USER}@${HOST_IP} 'docker image prune -f'
+                    """
+                }
+                echo "Cleanup completed!"
             }
         }
     }
-    
+
     post {
+        always {
+            echo "Pipeline finished at ${new Date()}"
+        }
         success {
             echo 'Pipeline executed successfully!'
         }
         failure {
             echo 'Pipeline failed!'
-        }
-        always {
-            echo "Pipeline finished at ${new Date()}"
         }
     }
 }
