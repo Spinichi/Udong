@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         // [수정] SSH 접속 정보를 변수로 관리하면 편리합니다.
-        HOST_USER = 'jen'      // 호스트 머신 사용자 이름
+        HOST_USER = 'ubuntu'      // 호스트 머신 사용자 이름
         HOST_IP = '172.17.0.1'
         PROJECT_DIR = '/home/ubuntu/udong'
     }
