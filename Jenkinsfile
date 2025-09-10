@@ -61,6 +61,8 @@ pipeline {
                                 ssh -o StrictHostKeyChecking=no ${HOST_USER}@${HOST_IP} '''
                                     echo "--- Deploying Frontend on Host ---"
                                     cd ${PROJECT_DIR}
+                                    echo "Pulling latest changes from GitLab..."
+                                    git pull
                                     docker-compose build frontend
                                     docker-compose up -d --no-deps frontend
                                 '''
@@ -82,6 +84,8 @@ pipeline {
                                 ssh -o StrictHostKeyChecking=no ${HOST_USER}@${HOST_IP} '''
                                     echo "--- Deploying Business API on Host ---"
                                     cd ${PROJECT_DIR}
+                                    echo "Pulling latest changes from GitLab..."
+                                    git pull
                                     docker-compose build business-api
                                     docker-compose up -d --no-deps business-api
                                 '''
@@ -103,6 +107,8 @@ pipeline {
                                 ssh -o StrictHostKeyChecking=no ${HOST_USER}@${HOST_IP} '''
                                     echo "--- Deploying Chat API on Host ---"
                                     cd ${PROJECT_DIR}
+                                    echo "Pulling latest changes from GitLab..."
+                                    git pull
                                     docker-compose build chat-api
                                     docker-compose up -d --no-deps chat-api
                                 '''
