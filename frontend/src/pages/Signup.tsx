@@ -126,11 +126,8 @@ const Signup: React.FC<SignupProps> = ({ onNavigateToOnboarding, onNavigateToLog
           {/* Title */}
           <div className="mb-8">
             <h1 className="text-3xl font-semibold text-gray-700 mb-1 font-jua leading-tight">
-              동아리 관리 플랫폼
+              우동<span className="text-orange-500"> 회원가입</span>
             </h1>
-            <h2 className="text-3xl font-semibold mb-4 font-jua">
-              <span className="text-orange-500">회원가입</span>
-            </h2>
             <p className="text-gray-600 text-base font-gowun">
               몇 가지 정보만 입력하면 바로 동아리 활동을 시작할 수 있어요
             </p>

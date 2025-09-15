@@ -47,10 +47,10 @@ const Login: React.FC<LoginProps> = ({ onNavigateToOnboarding, onNavigateToSignu
           {/* Title */}
           <div className="mb-8">
             <h1 className="text-3xl font-semibold text-gray-700 mb-1 font-jua leading-tight">
-              동아리관리 플랫폼에
+              우동에
             </h1>
             <h2 className="text-3xl font-semibold mb-4 font-jua">
-              <span className="text-orange-500">로그인</span> 하세요
+              <span className="text-orange-500">로그인</span> 하세요!
             </h2>
             <p className="text-gray-600 text-base font-gowun">
               이메일과 비밀번호로 간편하게 로그인하고 동아리 활동을 시작해보세요
