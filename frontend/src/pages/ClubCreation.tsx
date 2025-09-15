@@ -5,6 +5,7 @@ interface ClubCreationProps {
   onNavigateToOnboarding: () => void;
   onNavigateToClubSelection?: () => void;
   onCreateClub?: (clubData: ClubData) => void;
+  currentRoute?: string;
 }
 
 interface ClubData {
@@ -16,7 +17,8 @@ interface ClubData {
 const ClubCreation: React.FC<ClubCreationProps> = ({
   onNavigateToOnboarding,
   onNavigateToClubSelection,
-  onCreateClub
+  onCreateClub,
+  currentRoute
 }) => {
   const [formData, setFormData] = useState<ClubData>({
     name: '',
@@ -71,7 +73,7 @@ const ClubCreation: React.FC<ClubCreationProps> = ({
         <div className="absolute bottom-1/2 left-20 w-22 h-22 bg-orange-400 rounded-full opacity-8 animate-drift"></div>
       </div>
 
-      <Header onNavigateToOnboarding={onNavigateToOnboarding} />
+      <Header onNavigateToOnboarding={onNavigateToOnboarding} currentRoute={currentRoute} />
 
       {/* Main Content */}
       <div className="min-h-screen flex flex-col lg:flex-row items-center relative z-20 py-8 pt-24">

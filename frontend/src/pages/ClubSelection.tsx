@@ -5,12 +5,14 @@ interface ClubSelectionProps {
   onNavigateToOnboarding: () => void;
   onNavigateToJoinClub?: () => void;
   onNavigateToCreateClub?: () => void;
+  currentRoute?: string;
 }
 
 const ClubSelection: React.FC<ClubSelectionProps> = ({
   onNavigateToOnboarding,
   onNavigateToJoinClub,
-  onNavigateToCreateClub
+  onNavigateToCreateClub,
+  currentRoute
 }) => {
   return (
     <div className="min-h-screen bg-[#fcf9f5] relative overflow-hidden">
@@ -34,7 +36,7 @@ const ClubSelection: React.FC<ClubSelectionProps> = ({
         <div className="absolute bottom-1/2 left-20 w-22 h-22 bg-orange-400 rounded-full opacity-8 animate-drift"></div>
       </div>
 
-      <Header onNavigateToOnboarding={onNavigateToOnboarding} />
+      <Header onNavigateToOnboarding={onNavigateToOnboarding} currentRoute={currentRoute} />
 
       {/* Title Section */}
       <div className="absolute top-32 left-16 z-30">
