@@ -44,8 +44,8 @@ public class User {
     @Column(name = "phone", length = 13)
     private String phone;
 
-    // ERD가 acount_hash(오타)라면 DB 컬럼명에 맞춰 그대로 매핑
-    @Column(name = "account_hash", length = 128)
+    @Column(name = "account_hash", length = 255)
+    @Convert(converter = com.udong.backend.config.AccountNumberConverter.class)
     private String accountHash;
 
     @Enumerated(EnumType.STRING)
