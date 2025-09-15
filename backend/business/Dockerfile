@@ -19,7 +19,7 @@ COPY src/ src/
 RUN ./gradlew bootJar --no-daemon
 
 # 런타임 단계
-FROM openjdk:21-jre-slim
+FROM openjdk:21-jdk-slim
 
 WORKDIR /app
 
