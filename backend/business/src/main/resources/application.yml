@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: backend
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+    show-sql: true
+
+server:
+  servlet:
+    context-path: /api
+  error:
+    include-stacktrace: never   # trace 숨김
+    include-message: always
