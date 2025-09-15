@@ -6,9 +6,11 @@ import com.udong.backend.dto.SignUpRequest;
 import com.udong.backend.repository.UserRepository;
 import com.udong.backend.util.AesUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalTime;
 
@@ -23,7 +25,7 @@ public class UserService {
     @Transactional
     public void signUp(SignUpRequest req) {
         if (userRepository.existsByEmail(req.email())) {
-            throw new IllegalArgumentException("이미 사용 중인 이메일입니다.");
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "이미 사용 중인 이메일입니다.");
         }
 
         User user = User.builder()

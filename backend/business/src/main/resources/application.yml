@@ -14,3 +14,6 @@ spring:
 server:
   servlet:
     context-path: /api
+  error:
+    include-stacktrace: never   # trace 숨김
+    include-message: always
