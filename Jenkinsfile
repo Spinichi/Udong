@@ -47,6 +47,23 @@ pipeline {
             }
         }
 
+        stage('Git Pull') {
+            steps {
+                echo 'Pulling latest changes from GitLab...'
+                sshagent(credentials: ['host-ssh-key']) {
+                    sh """
+                        ssh -o StrictHostKeyChecking=no ${HOST_USER}@${HOST_IP} '''
+                            set -e
+                            echo "--- Pulling latest changes ---"
+                            cd ${PROJECT_DIR}
+                            git config pull.rebase false
+                            git pull
+                        '''
+                    """
+                }
+            }
+        }
+
         stage('Deploy Services') {
             parallel {
                 stage('Deploy Frontend') {
@@ -56,39 +73,29 @@ pipeline {
                     steps {
                         echo 'Building and deploying Frontend...'
                         sshagent(credentials: ['host-ssh-key']) {
-                            // 1. Git Pull
-                            sh """
-                                ssh -o StrictHostKeyChecking=no ${HOST_USER}@${HOST_IP} '''
-                                    set -e  # 에러 발생 시 즉시 중단
-                                    echo "--- Pulling latest changes for Frontend ---"
-                                    cd ${PROJECT_DIR}
-                                    git pull
-                                '''
-                            """
-                            
-                            // 2. Docker Build (별도 실행으로 에러 감지)
+                            // Docker Build
                             sh """
                                 ssh -o StrictHostKeyChecking=no ${HOST_USER}@${HOST_IP} '''
                                     set -e
                                     echo "--- Building Frontend ---"
                                     cd ${PROJECT_DIR}
                                     if ! docker-compose build --no-cache frontend; then
-                                        echo "❌ Frontend build failed!"
+                                        echo "Frontend build failed!"
                                         docker-compose logs frontend || true
                                         exit 1
                                     fi
-                                    echo "✅ Frontend build successful!"
+                                    echo "Frontend build successful!"
                                 '''
                             """
                             
-                            // 3. Deploy (빌드 성공 시에만 실행)
+                            // Deploy
                             sh """
                                 ssh -o StrictHostKeyChecking=no ${HOST_USER}@${HOST_IP} '''
                                     set -e
                                     echo "--- Deploying Frontend ---"
                                     cd ${PROJECT_DIR}
                                     docker-compose up -d --no-deps frontend
-                                    echo "✅ Frontend deployment completed!"
+                                    echo "Frontend deployment completed!"
                                 '''
                             """
                         }
@@ -103,39 +110,29 @@ pipeline {
                     steps {
                         echo 'Building and deploying Business API...'
                         sshagent(credentials: ['host-ssh-key']) {
-                            // 1. Git Pull
-                            sh """
-                                ssh -o StrictHostKeyChecking=no ${HOST_USER}@${HOST_IP} '''
-                                    set -e  # 에러 발생 시 즉시 중단
-                                    echo "--- Pulling latest changes for Business API ---"
-                                    cd ${PROJECT_DIR}
-                                    git pull
-                                '''
-                            """
-                            
-                            // 2. Docker Build (별도 실행으로 에러 감지)
+                            // Docker Build
                             sh """
                                 ssh -o StrictHostKeyChecking=no ${HOST_USER}@${HOST_IP} '''
                                     set -e
                                     echo "--- Building Business API ---"
                                     cd ${PROJECT_DIR}
                                     if ! docker-compose build --no-cache business-api; then
-                                        echo "❌ Business API build failed!"
+                                        echo "Business API build failed!"
                                         docker-compose logs business-api || true
                                         exit 1
                                     fi
-                                    echo "✅ Business API build successful!"
+                                    echo "Business API build successful!"
                                 '''
                             """
                             
-                            // 3. Deploy (빌드 성공 시에만 실행)
+                            // Deploy
                             sh """
                                 ssh -o StrictHostKeyChecking=no ${HOST_USER}@${HOST_IP} '''
                                     set -e
                                     echo "--- Deploying Business API ---"
                                     cd ${PROJECT_DIR}
                                     docker-compose up -d --no-deps business-api
-                                    echo "✅ Business API deployment completed!"
+                                    echo "Business API deployment completed!"
                                 '''
                             """
                         }
@@ -150,39 +147,29 @@ pipeline {
                     steps {
                         echo 'Building and deploying Chat API...'
                         sshagent(credentials: ['host-ssh-key']) {
-                            // 1. Git Pull
-                            sh """
-                                ssh -o StrictHostKeyChecking=no ${HOST_USER}@${HOST_IP} '''
-                                    set -e  # 에러 발생 시 즉시 중단
-                                    echo "--- Pulling latest changes for Chat API ---"
-                                    cd ${PROJECT_DIR}
-                                    git pull
-                                '''
-                            """
-                            
-                            // 2. Docker Build (별도 실행으로 에러 감지)
+                            // Docker Build
                             sh """
                                 ssh -o StrictHostKeyChecking=no ${HOST_USER}@${HOST_IP} '''
                                     set -e
                                     echo "--- Building Chat API ---"
                                     cd ${PROJECT_DIR}
                                     if ! docker-compose build --no-cache chat-api; then
-                                        echo "❌ Chat API build failed!"
+                                        echo "Chat API build failed!"
                                         docker-compose logs chat-api || true
                                         exit 1
                                     fi
-                                    echo "✅ Chat API build successful!"
+                                    echo "Chat API build successful!"
                                 '''
                             """
                             
-                            // 3. Deploy (빌드 성공 시에만 실행)
+                            // Deploy
                             sh """
                                 ssh -o StrictHostKeyChecking=no ${HOST_USER}@${HOST_IP} '''
                                     set -e
                                     echo "--- Deploying Chat API ---"
                                     cd ${PROJECT_DIR}
                                     docker-compose up -d --no-deps chat-api
-                                    echo "✅ Chat API deployment completed!"
+                                    echo "Chat API deployment completed!"
                                 '''
                             """
                         }
@@ -200,7 +187,7 @@ pipeline {
                         ssh -o StrictHostKeyChecking=no ${HOST_USER}@${HOST_IP} '''
                             echo "--- Cleanup ---"
                             docker image prune -f
-                            echo "✅ Cleanup completed!"
+                            echo "Cleanup completed!"
                         '''
                     """
                 }
@@ -214,11 +201,11 @@ pipeline {
             echo "Pipeline finished at ${new Date()}"
         }
         success {
-            echo '✅ Pipeline executed successfully!'
+            echo 'Pipeline executed successfully!'
             // Slack 알림 등을 여기에 추가할 수 있음
         }
         failure {
-            echo '❌ Pipeline failed!'
+            echo 'Pipeline failed!'
             // 실패 시 알림 로직을 여기에 추가할 수 있음
             sshagent(credentials: ['host-ssh-key']) {
                 sh """

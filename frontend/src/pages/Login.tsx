@@ -4,9 +4,10 @@ import Header from '../components/Header';
 interface LoginProps {
   onNavigateToOnboarding: () => void;
   onNavigateToSignup?: () => void;
+  currentRoute?: string;
 }
 
-const Login: React.FC<LoginProps> = ({ onNavigateToOnboarding, onNavigateToSignup }) => {
+const Login: React.FC<LoginProps> = ({ onNavigateToOnboarding, onNavigateToSignup, currentRoute }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [autoLogin, setAutoLogin] = useState(false);
@@ -38,7 +39,7 @@ const Login: React.FC<LoginProps> = ({ onNavigateToOnboarding, onNavigateToSignu
         <div className="absolute bottom-1/2 left-20 w-22 h-22 bg-orange-400 rounded-full opacity-8 animate-drift"></div>
       </div>
 
-      <Header onNavigateToOnboarding={onNavigateToOnboarding} />
+      <Header onNavigateToOnboarding={onNavigateToOnboarding} currentRoute={currentRoute} />
 
       {/* Main Content */}
       <div className="min-h-screen flex items-center relative z-20">

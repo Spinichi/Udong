@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Bell, Check, Clock, CreditCard, Users, Vote } from "lucide-react";
 
 interface NotificationProps {
-  onNavigateToNotification: () => void;
+  onNavigateToOnboarding: () => void;
 }
 
 interface Notification {
@@ -36,7 +36,7 @@ const mockNotifications: Notification[] = [
   },
 ];
 
-const NotificationsPage: React.FC<NotificationProps> = (onNavigateToNotification) => {
+const Notification: React.FC<NotificationProps> = () => {
   const [notifications, setNotifications] = useState(mockNotifications);
   const [filter, setFilter] = useState<Notification["type"] | "all">("all");
 
@@ -189,4 +189,4 @@ const NotificationsPage: React.FC<NotificationProps> = (onNavigateToNotification
   );
 };
 
-export default NotificationsPage;
+export default Notification;

@@ -4,9 +4,10 @@ import Header from '../components/Header';
 interface SignupProps {
   onNavigateToOnboarding: () => void;
   onNavigateToLogin: () => void;
+  currentRoute?: string;
 }
 
-const Signup: React.FC<SignupProps> = ({ onNavigateToOnboarding, onNavigateToLogin }) => {
+const Signup: React.FC<SignupProps> = ({ onNavigateToOnboarding, onNavigateToLogin, currentRoute }) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -117,7 +118,7 @@ const Signup: React.FC<SignupProps> = ({ onNavigateToOnboarding, onNavigateToLog
         <div className="absolute bottom-1/2 left-20 w-22 h-22 bg-orange-400 rounded-full opacity-8 animate-drift"></div>
       </div>
 
-      <Header onNavigateToOnboarding={onNavigateToOnboarding} />
+      <Header onNavigateToOnboarding={onNavigateToOnboarding} currentRoute={currentRoute} />
 
       {/* Main Content */}
       <div className="min-h-screen flex items-center relative z-20 py-20">
