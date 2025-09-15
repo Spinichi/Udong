@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import Header from '../components/Header';
 
 interface LoginProps {
   onNavigateToOnboarding: () => void;
+  onNavigateToSignup?: () => void;
 }
 
-const Login: React.FC<LoginProps> = ({ onNavigateToOnboarding }) => {
+const Login: React.FC<LoginProps> = ({ onNavigateToOnboarding, onNavigateToSignup }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [autoLogin, setAutoLogin] = useState(false);
@@ -36,19 +38,7 @@ const Login: React.FC<LoginProps> = ({ onNavigateToOnboarding }) => {
         <div className="absolute bottom-1/2 left-20 w-22 h-22 bg-orange-400 rounded-full opacity-8 animate-drift"></div>
       </div>
 
-      {/* Header */}
-      <header className="absolute top-0 left-0 w-full py-6 z-50">
-        <div className="w-full px-16 flex justify-between items-center">
-          <span className="text-orange-500 text-lg font-medium font-jua">우동 - 우리들의 동아리</span>
-          <button
-            onClick={onNavigateToOnboarding}
-            className="text-2xl hover:text-orange-500 transition-colors cursor-pointer p-2 rounded-lg hover:bg-orange-100 active:scale-95"
-            title="홈으로 가기"
-          >
-            🏠
-          </button>
-        </div>
-      </header>
+      <Header onNavigateToOnboarding={onNavigateToOnboarding} />
 
       {/* Main Content */}
       <div className="min-h-screen flex items-center relative z-20">
@@ -131,7 +121,10 @@ const Login: React.FC<LoginProps> = ({ onNavigateToOnboarding }) => {
 
             {/* Sign up button */}
             <div className="text-center">
-              <button className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-2xl font-medium border border-orange-400 transition-colors font-gowun text-sm">
+              <button
+                onClick={onNavigateToSignup}
+                className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-2xl font-medium border border-orange-400 transition-colors font-gowun text-sm"
+              >
                 회원가입
               </button>
             </div>
