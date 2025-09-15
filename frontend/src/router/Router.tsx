@@ -4,8 +4,10 @@ import Login from '../pages/Login'
 import Signup from '../pages/Signup'
 import ClubSelection from '../pages/ClubSelection'
 import ClubCreation from '../pages/ClubCreation'
+import Notification from '../pages/Notification'
+import MtPlanner from '../pages/MtPlanner'
 
-type Route = 'onboarding' | 'login' | 'signup' | 'club-selection' | 'club-creation'
+type Route = 'onboarding' | 'login' | 'signup' | 'club-selection' | 'club-creation' | 'notification' | 'mt-planner'
 
 const Router = () => {
   const [currentRoute, setCurrentRoute] = useState<Route>(() => {
@@ -14,6 +16,8 @@ const Router = () => {
     if (path === '/signup') return 'signup'
     if (path === '/club-selection') return 'club-selection'
     if (path === '/club-creation') return 'club-creation'
+    if (path === '/notification') return 'notification'
+    if (path === '/mt-planner') return 'mt-planner'
     return 'onboarding'
   })
 
@@ -30,6 +34,8 @@ const Router = () => {
       else if (path === '/signup') setCurrentRoute('signup')
       else if (path === '/club-selection') setCurrentRoute('club-selection')
       else if (path === '/club-creation') setCurrentRoute('club-creation')
+      else if (path === '/notification') setCurrentRoute('notification')
+      else if (path === '/mt-planner') setCurrentRoute('mt-planner')
       else setCurrentRoute('onboarding')
     }
 
@@ -59,6 +65,14 @@ const Router = () => {
         onNavigateToOnboarding={() => navigate('onboarding')}
         onNavigateToClubSelection={() => navigate('club-selection')}
         onCreateClub={(clubData) => console.log('Club created:', clubData)}
+      />
+    case 'notification':
+      return <Notification
+        onNavigateToOnboarding={() => navigate('onboarding')}
+      />
+    case 'mt-planner':
+      return <MtPlanner
+        onNavigateToOnboarding={() => navigate('onboarding')}
       />
     default:
       return <Onboarding onNavigateToLogin={() => navigate('login')} />
