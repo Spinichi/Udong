@@ -1,15 +1,35 @@
-FROM openjdk:21-jdk-slim
+# 빌드 단계
+FROM openjdk:21-jdk-slim AS builder
 
-# 필요한 패키지 설치
-RUN apt-get update && apt-get install -y curl netcat-traditional
+WORKDIR /app
 
-# 임시 테스트용 HTTP 서버 스크립트 생성
-RUN echo '#!/bin/bash' > /start.sh && \
-    echo 'echo "Business API Server Starting on port 8080..."' >> /start.sh && \
-    echo 'while true; do' >> /start.sh && \
-    echo '  echo -e "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-Length: 35\r\n\r\n{\"service\":\"business\",\"status\":\"OK\"}" | nc -l -p 8080' >> /start.sh && \
-    echo 'done' >> /start.sh && \
-    chmod +x /start.sh
+# Gradle wrapper 및 빌드 설정 파일 복사
+COPY gradlew .
+COPY gradle/ gradle/
+COPY build.gradle .
+COPY settings.gradle .
+
+# gradlew 실행 권한 부여
+RUN chmod +x gradlew
+
+# 소스 코드 복사
+COPY src/ src/
+
+# 애플리케이션 빌드
+RUN ./gradlew bootJar --no-daemon
+
+# 런타임 단계
+FROM openjdk:21-jre-slim
+
+WORKDIR /app
+
+# 빌드 단계에서 생성된 JAR 파일 복사
+COPY --from=builder /app/build/libs/*.jar app.jar
+
+# 보안을 위한 비-root 사용자 생성
+RUN addgroup --system spring && adduser --system spring --ingroup spring
+USER spring:spring
 
 EXPOSE 8080
-CMD ["/start.sh"]
+
+ENTRYPOINT ["java", "-jar", "app.jar"]
