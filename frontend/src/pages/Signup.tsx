@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Header from '../components/Header';
 
 interface SignupProps {
   onNavigateToOnboarding: () => void;
@@ -116,19 +117,7 @@ const Signup: React.FC<SignupProps> = ({ onNavigateToOnboarding, onNavigateToLog
         <div className="absolute bottom-1/2 left-20 w-22 h-22 bg-orange-400 rounded-full opacity-8 animate-drift"></div>
       </div>
 
-      {/* Header */}
-      <header className="absolute top-0 left-0 w-full py-6 z-50">
-        <div className="w-full px-16 flex justify-between items-center">
-          <span className="text-orange-500 text-lg font-medium font-jua">우동 - 우리들의 동아리</span>
-          <button
-            onClick={onNavigateToOnboarding}
-            className="text-2xl hover:text-orange-500 transition-colors cursor-pointer p-2 rounded-lg hover:bg-orange-100 active:scale-95"
-            title="홈으로 가기"
-          >
-            🏠
-          </button>
-        </div>
-      </header>
+      <Header onNavigateToOnboarding={onNavigateToOnboarding} />
 
       {/* Main Content */}
       <div className="min-h-screen flex items-center relative z-20 py-20">

@@ -2,14 +2,16 @@ import { useState, useEffect } from 'react'
 import Onboarding from '../pages/Onboarding'
 import Login from '../pages/Login'
 import Signup from '../pages/Signup'
+import ClubSelection from '../pages/ClubSelection'
 
-type Route = 'onboarding' | 'login' | 'signup'
+type Route = 'onboarding' | 'login' | 'signup' | 'club-selection'
 
 const Router = () => {
   const [currentRoute, setCurrentRoute] = useState<Route>(() => {
     const path = window.location.pathname
     if (path === '/login') return 'login'
     if (path === '/signup') return 'signup'
+    if (path === '/club-selection') return 'club-selection'
     return 'onboarding'
   })
 
@@ -24,6 +26,7 @@ const Router = () => {
       const path = window.location.pathname
       if (path === '/login') setCurrentRoute('login')
       else if (path === '/signup') setCurrentRoute('signup')
+      else if (path === '/club-selection') setCurrentRoute('club-selection')
       else setCurrentRoute('onboarding')
     }
 
@@ -41,6 +44,12 @@ const Router = () => {
       return <Signup
         onNavigateToOnboarding={() => navigate('onboarding')}
         onNavigateToLogin={() => navigate('login')}
+      />
+    case 'club-selection':
+      return <ClubSelection
+        onNavigateToOnboarding={() => navigate('onboarding')}
+        onNavigateToJoinClub={() => console.log('Navigate to join club')}
+        onNavigateToCreateClub={() => console.log('Navigate to create club')}
       />
     default:
       return <Onboarding onNavigateToLogin={() => navigate('login')} />
