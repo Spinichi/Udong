@@ -63,7 +63,7 @@ pipeline {
                                     cd ${PROJECT_DIR}
                                     echo "Pulling latest changes from GitLab..."
                                     git pull
-                                    docker-compose build frontend
+                                    docker-compose build --no-cache frontend
                                     docker-compose up -d --no-deps frontend
                                 '''
                             """
@@ -86,7 +86,7 @@ pipeline {
                                     cd ${PROJECT_DIR}
                                     echo "Pulling latest changes from GitLab..."
                                     git pull
-                                    docker-compose build business-api
+                                    docker-compose build --no-cache business-api
                                     docker-compose up -d --no-deps business-api
                                 '''
                             """
@@ -109,7 +109,7 @@ pipeline {
                                     cd ${PROJECT_DIR}
                                     echo "Pulling latest changes from GitLab..."
                                     git pull
-                                    docker-compose build chat-api
+                                    docker-compose build --no-cache chat-api
                                     docker-compose up -d --no-deps chat-api
                                 '''
                             """
