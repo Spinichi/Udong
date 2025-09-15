@@ -76,16 +76,18 @@ const ClubCreation: React.FC<ClubCreationProps> = ({
       {/* Main Content */}
       <div className="min-h-screen flex flex-col lg:flex-row items-center relative z-20 py-8 pt-24">
         {/* Left Side - Title and Mascot */}
-        <div className="w-full lg:w-1/2 px-8 lg:pl-16 lg:pr-8 mb-8 lg:mb-20 flex flex-col justify-start h-full">
+        <div className="w-full lg:w-1/2 px-8 lg:pl-16 lg:pr-8 mb-20 lg:mb- flex flex-col justify-start h-full">
           {/* Title Section */}
           <div className="text-center lg:text-left pt-0 lg:pt-0">
-            <h1 className="text-3xl lg:text-4xl font-semibold mb-4 font-jua leading-relaxed text-gray-700">
+            <h1 className="text-3xl lg:text-4xl font-semibold mb-4 font-jua leading-relaxed text-black-500">
               <span className="text-orange-500">동아리를&nbsp;</span>만들어보세요
             </h1>
             <p className="text-gray-600 text-base lg:text-lg font-gowun">
-              동아리 정보를 입력하면 <span className="text-orange-500 font-medium">AI</span>가 마스코트를 생성해드려요
+              동아리 정보를 입력하면 <span className="text-orange-500 font-medium">AI</span>가 <span className="text-lime-500 font-medium">마스코트</span>를 생성해드려요
             </p>
           </div>
+
+          
 
           {/* Mascot Section */}
           <div className="flex items-center justify-center mt-8 lg:mt-12">
