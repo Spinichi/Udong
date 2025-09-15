@@ -36,7 +36,7 @@ const mockNotifications: Notification[] = [
   },
 ];
 
-const NotificationsPage: React.FC<NotificationProps> = (onNavigateToNotification) => {
+const NotificationsPage: React.FC<NotificationProps> = () => {
   const [notifications, setNotifications] = useState(mockNotifications);
   const [filter, setFilter] = useState<Notification["type"] | "all">("all");
 
