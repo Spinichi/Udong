@@ -36,7 +36,7 @@ const mockNotifications: Notification[] = [
   },
 ];
 
-const NotificationsPage: React.FC<NotificationProps> = () => {
+const Notification: React.FC<NotificationProps> = () => {
   const [notifications, setNotifications] = useState(mockNotifications);
   const [filter, setFilter] = useState<Notification["type"] | "all">("all");
 
@@ -189,4 +189,4 @@ const NotificationsPage: React.FC<NotificationProps> = () => {
   );
 };
 
-export default NotificationsPage;
+export default Notification;
