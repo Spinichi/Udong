@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 
 interface LoginProps {
   onNavigateToOnboarding: () => void;
+  onNavigateToSignup?: () => void;
 }
 
-const Login: React.FC<LoginProps> = ({ onNavigateToOnboarding }) => {
+const Login: React.FC<LoginProps> = ({ onNavigateToOnboarding, onNavigateToSignup }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [autoLogin, setAutoLogin] = useState(false);
@@ -131,7 +132,10 @@ const Login: React.FC<LoginProps> = ({ onNavigateToOnboarding }) => {
 
             {/* Sign up button */}
             <div className="text-center">
-              <button className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-2xl font-medium border border-orange-400 transition-colors font-gowun text-sm">
+              <button
+                onClick={onNavigateToSignup}
+                className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-2xl font-medium border border-orange-400 transition-colors font-gowun text-sm"
+              >
                 회원가입
               </button>
             </div>
