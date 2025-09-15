@@ -1,13 +1,20 @@
 import React from 'react';
 
-const Onboarding: React.FC = () => {
+interface OnboardingProps {
+  onNavigateToLogin: () => void;
+}
+
+const Onboarding: React.FC<OnboardingProps> = ({ onNavigateToLogin }) => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-orange-50 to-orange-100">
       {/* Header */}
       <header className="w-full py-6">
         <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
           <span className="text-orange-500 text-lg font-medium font-jua">우동 - 우리들의 동아리</span>
-          <button className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-full font-medium font-gowun transition-colors">
+          <button
+            onClick={onNavigateToLogin}
+            className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-full font-medium font-gowun transition-colors"
+          >
             로그인
           </button>
         </div>
@@ -38,7 +45,10 @@ const Onboarding: React.FC = () => {
             </div>
 
             <div className="flex gap-4">
-              <button className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-xl font-semibold font-gowun transition-colors">
+              <button
+                onClick={onNavigateToLogin}
+                className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-xl font-semibold font-gowun transition-colors"
+              >
                 무료로 시작하기
               </button>
             </div>

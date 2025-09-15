@@ -1,7 +1,7 @@
-import Onboarding from './pages/Onboarding'
+import Router from './router/Router'
 
 function App() {
-  return <Onboarding />
+  return <Router />
 }
 
 export default App
