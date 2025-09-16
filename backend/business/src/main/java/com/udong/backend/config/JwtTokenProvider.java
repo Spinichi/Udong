@@ -27,31 +27,46 @@ public class JwtTokenProvider {
         this.KEY = Keys.hmacShaKeyFor(SECRET_KEY_STR.getBytes(StandardCharsets.UTF_8));
     }
 
-    public String createAccessToken(String userId, String role) {
-        return createToken(userId, role, ACCESS_EXPIRATION);
+    /* ====== 발급 ====== */
+    // 로그인 직후: userId만 포함
+    public String createAccessToken(String userId) {
+        return createToken(userId, null, null, ACCESS_EXPIRATION);
     }
 
-    public String createRefreshToken(String userId, String role) {
-        return createToken(userId, role, REFRESH_EXPIRATION);
+    // 클럽 선택 후: userId + clubId + role 포함
+    public String createClubAccessToken(String userId, Long clubId, String clubRole) {
+        return createToken(userId, clubId, clubRole, ACCESS_EXPIRATION);
     }
 
-    private String createToken(String userId, String role, long validityMs) {
+    // Refresh Token은 userId만
+    public String createRefreshToken(String userId) {
+        return createToken(userId, null, null, REFRESH_EXPIRATION);
+    }
+
+    private String createToken(String userId, Long clubId, String role, long validityMs) {
         Date now = new Date();
         Date exp = new Date(now.getTime() + validityMs);
 
-        return Jwts.builder()
+        JwtBuilder builder = Jwts.builder()
                 .claim("userId", userId)
-                .claim("role", role)
                 .issuedAt(now)
                 .expiration(exp)
-                .signWith(KEY, Jwts.SIG.HS256)   // ✅ SecretKey 사용
-                .compact();
+                .signWith(KEY, Jwts.SIG.HS256);
+
+        if (clubId != null) {
+            builder.claim("clubId", clubId);
+        }
+        if (role != null) {
+            builder.claim("role", role);
+        }
+
+        return builder.compact();
     }
 
     /* ====== 검증/파싱 ====== */
     public boolean validate(String token) {
         try {
-            Jwts.parser().verifyWith(KEY).build().parseSignedClaims(token); // ✅ SecretKey로 검증
+            Jwts.parser().verifyWith(KEY).build().parseSignedClaims(token);
             return true;
         } catch (ExpiredJwtException e) {
             return false;
@@ -60,15 +75,20 @@ public class JwtTokenProvider {
         }
     }
 
-    /* ===== 조회 ===== */
+    /* ====== 조회 ====== */
     public String getUserId(String token) {
         Object v = parseClaims(token).get("userId");
         return v == null ? null : v.toString();
     }
 
+    public Long getClubId(String token) {
+        Object v = parseClaims(token).get("clubId");
+        return v == null ? null : Long.valueOf(v.toString());
+    }
+
     public String getRole(String token) {
         Object role = parseClaims(token).get("role");
-        return role == null ? "ROLE_USER" : role.toString();
+        return role == null ? null : role.toString();
     }
 
     private Claims parseClaims(String token) {

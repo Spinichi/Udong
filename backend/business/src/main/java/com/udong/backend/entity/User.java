@@ -82,4 +82,15 @@ public class User {
     }
 
     public enum Gender { M, F }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", name='" + name + '\'' +
+                ", phone='" + phone + '\'' +
+                ", gender=" + gender +
+                '}';
+    }
 }
