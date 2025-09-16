@@ -69,14 +69,13 @@ const MtPlanner: React.FC<MtPlannerProps> = ({onNavigateToOnboarding, currentRou
 
   return (
     
-    <div className="flex h-screen bg-gradient-to-br from-orange-50 to-orange-100">
-      
+    <div className="flex bg-gradient-to-br from-orange-50 to-orange-100">
+      {/* Header */}
+      <Header onNavigateToOnboarding={onNavigateToOnboarding} currentRoute={currentRoute} />
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-auto">
-        {/* Header */}
-        <div className="mb-8">
-          <Header onNavigateToOnboarding={onNavigateToOnboarding} currentRoute={currentRoute} />
-        </div>
+
+
         {/* Content */}
         <div className="p-8 flex-1 overflow-auto">
           {!mtPlan ? (
@@ -122,21 +121,18 @@ const MtPlanner: React.FC<MtPlannerProps> = ({onNavigateToOnboarding, currentRou
             </div>
           ) : (
             <div className="max-w-6xl mx-auto">
-                <div className="flex justify-between items-center mb-8">
+                <div className="flex justify-between items-center mb-8 pt-8">
                   <div>
                     <h2 className="text-2xl font-bold text-gray-800 mb-2">MT 계획서</h2>
                     <p className="text-gray-600">생성된 MT 계획을 확인하고 수정하세요</p>
                   </div>
                   <div className="flex gap-3">
                     <button
-                      onClick={() => setShowPlanModal(true)}
-                      className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-xl font-semibold transition-all duration-200 flex items-center gap-2"
-                    >
-                      <span>✏️</span>
-                      <span>수정</span>
-                    </button>
-                    <button
-                      onClick={() => setMtPlan(null)}
+                      onClick={() => {
+                      setMtPlan(null);
+                      setFormData({ duration: "", weather: "", participants: "", genderRatio: "", specialNotes: "" });
+                      setShowPlanModal(true);
+                    }}
                       className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-xl font-semibold transition-all duration-200 flex items-center gap-2"
                     >
                       <span>🔄</span>
