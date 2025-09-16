@@ -1,7 +1,15 @@
-import React, { useState } from "react"
+import React, { useState } from "react";
+import Sidebar from '../components/Sidebar';
+import Notification from './Notification';
 
 interface MtPlannerProps {
   onNavigateToOnboarding: () => void;
+  onNavigateToClubDashboard?: () => void;
+  onNavigateToClubList?: () => void;
+  onNavigateToSettlement?: () => void;
+  onNavigateToChat?: () => void;
+  onNavigateToVote?: () => void;
+  onShowNotification?: () => void;
 }
 
 interface MtPlan {
@@ -12,11 +20,31 @@ interface MtPlan {
   accommodation: { type: string; capacity: number; rooms: string; checkIn: string; checkOut: string; facilities: string[] };
 }
 
-const MtPlanner: React.FC<MtPlannerProps> = () => {
+const MtPlanner: React.FC<MtPlannerProps> = ({
+  onNavigateToOnboarding,
+  onNavigateToClubDashboard,
+  onNavigateToClubList,
+  onNavigateToSettlement,
+  onNavigateToChat,
+  onNavigateToVote,
+  onShowNotification
+}) => {
   const [mtPlan, setMtPlan] = useState<MtPlan | null>(null);
+  const [showNotificationModal, setShowNotificationModal] = useState(false);
 
   return (
     <div className="flex h-screen bg-gradient-to-br from-orange-50 to-orange-100">
+      {/* Left Sidebar */}
+      <Sidebar
+        onNavigateToOnboarding={onNavigateToOnboarding}
+        onNavigateToClubList={onNavigateToClubList}
+        onNavigateToClubDashboard={onNavigateToClubDashboard}
+        onNavigateToSettlement={onNavigateToSettlement}
+        onNavigateToChat={onNavigateToChat}
+        onNavigateToVote={onNavigateToVote}
+        onShowNotification={() => setShowNotificationModal(true)}
+      />
+
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-auto">
         {/* Header */}
@@ -33,7 +61,7 @@ const MtPlanner: React.FC<MtPlannerProps> = () => {
             <div className="max-w-4xl mx-auto">
               <div className="relative mb-12 rounded-3xl overflow-hidden shadow-2xl">
                 <img
-                  src="/images/beautiful-mountain-landscape-with-camping-tents-an.jpg"
+                  src="/images/mt.webp"
                   alt="MT 계획 배경 이미지"
                   className="w-full h-80 object-cover"
                 />
@@ -90,6 +118,28 @@ const MtPlanner: React.FC<MtPlannerProps> = () => {
           )}
         </div>
       </div>
+
+      {/* Notification Modal */}
+      {showNotificationModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full mx-4 max-h-[80vh] overflow-hidden">
+            <div className="flex items-center justify-between p-6 border-b">
+              <h2 className="text-xl font-semibold text-gray-700 font-jua">알림</h2>
+              <button
+                onClick={() => setShowNotificationModal(false)}
+                className="text-gray-400 hover:text-gray-600 transition-colors"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            <div className="p-0">
+              <Notification onNavigateToOnboarding={onNavigateToOnboarding} />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
