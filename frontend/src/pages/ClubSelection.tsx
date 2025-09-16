@@ -44,7 +44,7 @@ const ClubSelection: React.FC<ClubSelectionProps> = ({
           <span className="text-orange-500">동아리를&nbsp;</span>선택해주세요
         </h1>
         <p className="text-gray-600 text-base lg:text-lg font-gowun">
-          <span className="text-green-500">새로운 동아리</span>를 만들거나 <span className="text-orange-500">기존 동아리</span>에 참가할 수 있습니다
+          <span className="text-green-500">새로운 동아리</span>를 만들거나 <span className="text-orange-500">기존 동아리</span>에 참가할 수 있어요
         </p>
       </div>
 

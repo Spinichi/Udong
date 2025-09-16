@@ -1,10 +1,18 @@
 package com.udong.backend.users.service;
 
+<<<<<<< HEAD
 import com.udong.backend.users.dto.SignUpRequest;
 import com.udong.backend.users.entity.User;
 import com.udong.backend.users.entity.UserAvailability;
 import com.udong.backend.users.repository.UserRepository;
 import com.udong.backend.global.util.AesUtil;
+=======
+import com.udong.backend.users.entity.User;
+import com.udong.backend.users.entity.UserAvailability;
+import com.udong.backend.users.dto.SignUpRequest;
+import com.udong.backend.users.repository.UserRepository;
+import com.udong.backend.users.util.AesUtil;
+>>>>>>> origin/dev
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
