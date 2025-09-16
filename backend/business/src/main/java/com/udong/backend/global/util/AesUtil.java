@@ -1,8 +1,4 @@
-<<<<<<<< HEAD:backend/business/src/main/java/com/udong/backend/global/util/AesUtil.java
 package com.udong.backend.global.util;
-========
-package com.udong.backend.users.util;
->>>>>>>> origin/dev:backend/business/src/main/java/com/udong/backend/users/util/AesUtil.java
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

@@ -3,7 +3,7 @@ package com.udong.backend.clubs.controller;
 import com.udong.backend.clubs.entity.Club;
 import com.udong.backend.clubs.service.ClubService;
 import com.udong.backend.clubs.dto.ClubDtos.*;
-import com.udong.backend.clubs.global.dto.response.ApiResponse;
+import com.udong.backend.global.dto.response.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +16,7 @@ public class ClubController {
     private final ClubService clubs;
 
     @PostMapping
-    public ResponseEntity<ApiResponse<Res>> create(@RequestBody @Valid CreateReq req){
+    public ResponseEntity<com.udong.backend.global.dto.response.ApiResponse<Res>> create(@RequestBody @Valid CreateReq req){
         Club c = clubs.create(req.name(), req.category(), req.description(), req.leaderUserId(), req.accountNumber());
         String masked = clubs.getMaskedAccount(c.getId());
 

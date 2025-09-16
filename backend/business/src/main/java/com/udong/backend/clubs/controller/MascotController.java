@@ -4,7 +4,7 @@ import com.udong.backend.clubs.entity.Mascot;
 import com.udong.backend.clubs.service.MascotService;
 import com.udong.backend.clubs.dto.MascotCreateReq;
 import com.udong.backend.clubs.dto.MascotDtos;
-import com.udong.backend.clubs.global.dto.response.ApiResponse;
+import com.udong.backend.global.dto.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +19,7 @@ public class MascotController {
 
     /** 현재 활성 마스코트 조회 */
     @GetMapping("/mascot")
-    public ResponseEntity<ApiResponse<MascotDtos.Res>> active(@PathVariable Integer clubId) {
+    public ResponseEntity<com.udong.backend.global.dto.response.ApiResponse<MascotDtos.Res>> active(@PathVariable Integer clubId) {
         Mascot m = mascots.getActive(clubId);
         MascotDtos.Res body = (m == null)
                 ? null
