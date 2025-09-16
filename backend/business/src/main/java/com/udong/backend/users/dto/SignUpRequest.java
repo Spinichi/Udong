@@ -1,4 +1,4 @@
-package com.udong.backend.user.dto;
+package com.udong.backend.users.dto;
 
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;

@@ -1,6 +1,6 @@
-package com.udong.backend.user.repository;
+package com.udong.backend.users.repository;
 
-import com.udong.backend.user.entity.User;
+import com.udong.backend.users.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 

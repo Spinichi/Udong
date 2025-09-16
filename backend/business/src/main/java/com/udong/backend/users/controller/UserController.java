@@ -1,7 +1,7 @@
-package com.udong.backend.user.controller;
+package com.udong.backend.users.controller;
 
-import com.udong.backend.user.service.UserService;
-import com.udong.backend.user.dto.SignUpRequest;
+import com.udong.backend.users.service.UserService;
+import com.udong.backend.users.dto.SignUpRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

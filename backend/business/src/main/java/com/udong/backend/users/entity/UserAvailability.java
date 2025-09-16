@@ -1,4 +1,4 @@
-package com.udong.backend.user.entity;
+package com.udong.backend.users.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

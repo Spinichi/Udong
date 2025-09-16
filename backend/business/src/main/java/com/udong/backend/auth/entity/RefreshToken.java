@@ -1,6 +1,6 @@
 package com.udong.backend.auth.entity;
 
-import com.udong.backend.user.entity.User;
+import com.udong.backend.users.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;

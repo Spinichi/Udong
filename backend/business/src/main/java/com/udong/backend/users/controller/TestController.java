@@ -1,4 +1,4 @@
-package com.udong.backend.user.controller;
+package com.udong.backend.users.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

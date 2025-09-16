@@ -1,9 +1,9 @@
-package com.udong.backend.user.service;
+package com.udong.backend.users.service;
 
-import com.udong.backend.user.dto.SignUpRequest;
-import com.udong.backend.user.entity.User;
-import com.udong.backend.user.entity.UserAvailability;
-import com.udong.backend.user.repository.UserRepository;
+import com.udong.backend.users.dto.SignUpRequest;
+import com.udong.backend.users.entity.User;
+import com.udong.backend.users.entity.UserAvailability;
+import com.udong.backend.users.repository.UserRepository;
 import com.udong.backend.global.util.AesUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
