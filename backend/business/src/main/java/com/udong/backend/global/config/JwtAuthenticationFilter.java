@@ -28,7 +28,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     // 공개 엔드포인트(필터 스킵 목록)
     private static final String[] WHITELIST = {
             "/api/v1/users/signup",
-            "/api/v1/auth/login"
+            "/api/v1/auth/login",
+            "/api/v1/auth/refresh"
     };
 
     // 공개 엔드포인트는 필터링 건너뛰기

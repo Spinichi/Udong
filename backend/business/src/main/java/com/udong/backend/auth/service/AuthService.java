@@ -1,5 +1,6 @@
 package com.udong.backend.auth.service;
 
+import com.udong.backend.auth.dto.AccessTokenResponse;
 import com.udong.backend.auth.dto.LoginRequest;
 import com.udong.backend.auth.entity.RefreshToken;
 import com.udong.backend.auth.repository.RefreshTokenRepository;
@@ -11,6 +12,7 @@ import jakarta.persistence.EntityManager;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.nio.charset.StandardCharsets;
@@ -72,6 +74,24 @@ public class AuthService {
         );
 
         return new TokenPair(access, refresh);
+    }
+
+    @Transactional(readOnly = true)
+    public AccessTokenResponse refresh(String rawRefreshToken) {
+        if (rawRefreshToken == null || rawRefreshToken.isBlank()) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "missing_refresh_token");
+        }
+
+        String hash = sha256(rawRefreshToken);
+        RefreshToken rt = refreshTokenRepository.findByRefreshTokenHash(hash)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "invalid_refresh_token"));
+
+        User user = rt.getUser();
+        String newAccess = jwtTokenProvider.createAccessToken(String.valueOf(user.getId()));
+
+        return AccessTokenResponse.builder()
+                .accessToken(newAccess)
+                .build();
     }
 
     private static String sha256(String v) {

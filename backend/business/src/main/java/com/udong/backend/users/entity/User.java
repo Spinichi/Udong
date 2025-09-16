@@ -1,10 +1,6 @@
 package com.udong.backend.users.entity;
 
-<<<<<<< HEAD
 import com.udong.backend.global.config.AccountNumberConverter;
-=======
-import com.udong.backend.users.config.AccountNumberConverter;
->>>>>>> origin/dev
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
