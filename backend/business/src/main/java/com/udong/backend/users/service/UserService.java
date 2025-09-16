@@ -1,10 +1,18 @@
 package com.udong.backend.users.service;
 
+<<<<<<< HEAD
+import com.udong.backend.users.dto.SignUpRequest;
+import com.udong.backend.users.entity.User;
+import com.udong.backend.users.entity.UserAvailability;
+import com.udong.backend.users.repository.UserRepository;
+import com.udong.backend.global.util.AesUtil;
+=======
 import com.udong.backend.users.entity.User;
 import com.udong.backend.users.entity.UserAvailability;
 import com.udong.backend.users.dto.SignUpRequest;
 import com.udong.backend.users.repository.UserRepository;
 import com.udong.backend.users.util.AesUtil;
+>>>>>>> origin/dev
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,29 +32,29 @@ public class UserService {
 
     @Transactional
     public void signUp(SignUpRequest req) {
-        if (userRepository.existsByEmail(req.email())) {
+        if (userRepository.existsByEmail(req.getEmail())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "이미 사용 중인 이메일입니다.");
         }
 
         User user = User.builder()
-                .email(req.email())
-                .passwordHash(passwordEncoder.encode(req.password()))
-                .name(req.name())
-                .university(req.university())
-                .major(req.major())
-                .residence(req.residence())
-                .phone(req.phone())
-                .gender(User.Gender.valueOf(req.gender())) // "M"/"F"만 허용
-                .accountHash(aesUtil.encrypt(req.account()))
+                .email(req.getEmail())
+                .passwordHash(passwordEncoder.encode(req.getPassword()))
+                .name(req.getName())
+                .university(req.getUniversity())
+                .major(req.getMajor())
+                .residence(req.getResidence())
+                .phone(req.getPhone())
+                .gender(User.Gender.valueOf(req.getGender())) // "M"/"F"만 허용
+                .accountHash(aesUtil.encrypt(req.getAccount()))
                 .build();
 
         // 가능 시간 같이 들어오면 추가
-        if (req.availability() != null) {
-            for (var a : req.availability()) {
+        if (req.getAvailability() != null) {
+            for (var a : req.getAvailability()) {
                 UserAvailability ua = UserAvailability.builder()
-                        .dayOfWeek(a.dayOfWeek())
-                        .startTime(LocalTime.parse(a.startTime()))
-                        .endTime(LocalTime.parse(a.endTime()))
+                        .dayOfWeek(a.getDayOfWeek())
+                        .startTime(LocalTime.parse(a.getStartTime()))
+                        .endTime(LocalTime.parse(a.getEndTime()))
                         .build();
                 user.addAvailability(ua); // 양방향 세팅 (cascade로 함께 저장)
             }

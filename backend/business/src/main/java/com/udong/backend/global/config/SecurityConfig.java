@@ -1,8 +1,4 @@
-<<<<<<<< HEAD:backend/business/src/main/java/com/udong/backend/global/config/SecurityConfig.java
 package com.udong.backend.global.config;
-========
-package com.udong.backend.users.config;
->>>>>>>> origin/dev:backend/business/src/main/java/com/udong/backend/users/config/SecurityConfig.java
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

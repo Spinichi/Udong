@@ -1,8 +1,4 @@
-<<<<<<<< HEAD:backend/business/src/main/java/com/udong/backend/global/config/AccountNumberConverter.java
 package com.udong.backend.global.config;
-========
-package com.udong.backend.users.config;
->>>>>>>> origin/dev:backend/business/src/main/java/com/udong/backend/users/config/AccountNumberConverter.java
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;

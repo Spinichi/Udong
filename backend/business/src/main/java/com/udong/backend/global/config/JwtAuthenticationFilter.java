@@ -1,8 +1,4 @@
-<<<<<<<< HEAD:backend/business/src/main/java/com/udong/backend/global/config/JwtAuthenticationFilter.java
 package com.udong.backend.global.config;
-========
-package com.udong.backend.users.config;
->>>>>>>> origin/dev:backend/business/src/main/java/com/udong/backend/users/config/JwtAuthenticationFilter.java
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
