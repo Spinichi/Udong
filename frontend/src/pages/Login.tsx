@@ -54,7 +54,7 @@ const Login: React.FC<LoginProps> = ({ onNavigateToOnboarding, onNavigateToSignu
               <span className="text-orange-500">로그인</span> 하세요!
             </h2>
             <p className="text-gray-600 text-base font-gowun">
-              이메일과 비밀번호로 간편하게 로그인하고 동아리 활동을 시작해보세요
+              이메일과 비밀번호로 간편하게 <span className="text-orange-500">로그인</span>하고 <span className="text-orange-500">동아리 활동</span>을 시작해보세요
             </p>
           </div>
 

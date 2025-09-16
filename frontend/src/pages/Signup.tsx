@@ -126,11 +126,11 @@ const Signup: React.FC<SignupProps> = ({ onNavigateToOnboarding, onNavigateToLog
         <div className="w-1/2 pl-16 pr-8">
           {/* Title */}
           <div className="mb-8">
-            <h1 className="text-3xl font-semibold text-gray-700 mb-1 font-jua leading-tight">
+            <h1 className="text-3xl font-semibold text-gray-700 mb-1 pt-2 font-jua leading-tight">
               우동<span className="text-orange-500"> 회원가입</span>
             </h1>
-            <p className="text-gray-600 text-base font-gowun">
-              몇 가지 정보만 입력하면 바로 동아리 활동을 시작할 수 있어요
+            <p className="text-gray-600 pt-2 text-base font-gowun">
+              몇 가지 정보만 입력하면 바로 <span className="text-orange-500">동아리 활동</span>을 시작할 수 있어요
             </p>
           </div>
 

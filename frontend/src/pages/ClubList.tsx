@@ -307,11 +307,15 @@ const ClubList: React.FC<ClubListProps> = ({ onNavigateToOnboarding, currentRout
               ) : (
                 <div className="bg-white rounded-2xl shadow-lg border border-orange-100 p-8">
                   <div className="text-center py-16">
-                    <div className="w-24 h-24 bg-gray-100 rounded-full mx-auto mb-6 flex items-center justify-center">
-                      <span className="text-gray-400 text-4xl">📭</span>
+                    <div className="mx-auto mb-6 flex items-center justify-center">
+                      <img
+                        src="/images/clubChoice.png"
+                        alt="우동 마스코트"
+                        className="w-[28rem] h-80 object-contain"
+                      />
                     </div>
-                    <h2 className="text-2xl font-semibold text-gray-700 mb-2 font-jua">선택된 동아리가 없습니다.</h2>
-                    <p className="text-gray-500 font-gowun">왼쪽에서 동아리를 선택하거나 초대코드로 새 동아리에 참가해보세요.</p>
+                    <h2 className="text-2xl font-semibold text-gray-700 mb-2 font-jua">선택된 <span className="text-orange-500">동아리</span>가 없습니다.</h2>
+                    <p className="text-gray-500 font-gowun">왼쪽에서 <span className="text-orange-500">동아리를 선택</span>하거나 <span className="text-orange-500">초대코드로 새 동아리에 참가</span>해보세요.</p>
                   </div>
                 </div>
               )}
