@@ -18,8 +18,7 @@ const ClubDashboard: React.FC<ClubDashboardProps> = ({
   onNavigateToMtPlanner,
   onNavigateToSettlement,
   onNavigateToChat,
-  onNavigateToVote,
-  currentRoute
+  onNavigateToVote
 }) => {
   const [showNotificationModal, setShowNotificationModal] = useState(false);
 

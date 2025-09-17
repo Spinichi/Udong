@@ -26,8 +26,7 @@ const MtPlanner: React.FC<MtPlannerProps> = ({
   onNavigateToClubList,
   onNavigateToSettlement,
   onNavigateToChat,
-  onNavigateToVote,
-  onShowNotification
+  onNavigateToVote
 }) => {
   const [mtPlan, setMtPlan] = useState<MtPlan | null>(null);
   const [showNotificationModal, setShowNotificationModal] = useState(false);
