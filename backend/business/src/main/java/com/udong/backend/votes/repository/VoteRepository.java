@@ -1,7 +1,9 @@
 package com.udong.backend.votes.repository;
 
 import com.udong.backend.votes.entity.Vote;
+import jakarta.persistence.LockModeType;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -33,6 +35,11 @@ public interface VoteRepository extends JpaRepository<Vote, Integer> {
     // 투표와 옵션을 함께 조회
     @Query("SELECT v FROM Vote v LEFT JOIN FETCH v.options WHERE v.id = :voteId")
     Optional<Vote> findByIdWithOptions(@Param("voteId") Integer voteId);
+
+    // 투표와 옵션을 함께 조회 (비관적 락 - 동시성 제어)
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("SELECT v FROM Vote v LEFT JOIN FETCH v.options WHERE v.id = :voteId")
+    Optional<Vote> findByIdWithOptionsForUpdate(@Param("voteId") Integer voteId);
 
     // 특정 사용자가 생성한 투표 목록
     List<Vote> findByCreatedByOrderByCreatedAtDesc(Integer createdBy);

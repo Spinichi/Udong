@@ -12,8 +12,8 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     # 여기에 HikariCP 설정 추가
     hikari:
-      maximum-pool-size: 3      # 기본 10 → 3으로 줄임
-      minimum-idle: 1           # 최소 유지 연결
+      maximum-pool-size: 20     # 동시성 테스트를 위해 20으로 증가
+      minimum-idle: 5           # 최소 유지 연결
       connection-timeout: 20000 # 20초
       idle-timeout: 300000      # 5분
       max-lifetime: 1200000     # 20분

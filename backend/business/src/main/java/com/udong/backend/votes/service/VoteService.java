@@ -320,13 +320,14 @@ public class VoteService {
      */
     @Transactional
     public VoteResponse participateVote(Integer voteId, VoteParticipateRequest request, Integer currentUserId) {
-        Vote vote = voteRepository.findByIdWithOptions(voteId)
+        // 비관적 락으로 투표 조회 (동시성 제어)
+        Vote vote = voteRepository.findByIdWithOptionsForUpdate(voteId)
                 .orElseThrow(() -> new IllegalArgumentException("투표를 찾을 수 없습니다."));
 
         validateChatMember(vote.getChatRoom().getId(), currentUserId);
         validateVoteParticipation(vote, currentUserId, request);
 
-        // 재투표 불가 체크
+        // 재투표 불가 체크 (비관적 락으로 보호됨)
         boolean hasAlreadyParticipated = voteSelectionRepository.existsByVoteIdAndUserId(voteId, currentUserId);
         if (hasAlreadyParticipated) {
             throw new IllegalArgumentException("이미 참여한 투표입니다. 재투표는 불가능합니다.");
